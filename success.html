@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>Token Slip</title>
+    <title>Registration Successful</title>
 
     <style>
         body {
@@ -21,12 +21,23 @@
             border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             text-align: center;
+            width: 350px;
         }
         
         .token {
             font-size: 50px;
-            color: red;
-            margin: 20px;
+            color: #e63946;
+            margin: 20px 0;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background: #1c6cb3;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 15px;
         }
     </style>
 
@@ -35,9 +46,13 @@
 
             var params = new URLSearchParams(window.location.search);
 
-            document.getElementById("pid").innerText = params.get("id");
-            document.getElementById("token").innerText = params.get("token");
-            document.getElementById("ward").innerText = params.get("ward");
+            var id = params.get("id");
+            var token = params.get("token");
+            var ward = params.get("ward");
+
+            document.getElementById("pid").innerText = id;
+            document.getElementById("token").innerText = token;
+            document.getElementById("ward").innerText = ward;
 
         }
     </script>
@@ -60,7 +75,7 @@
         <h3 id="ward"></h3>
 
         <a href="queue.html">
-            <button>Go to Queue Display</button>
+            <button>View Queue Screen</button>
         </a>
 
     </div>
