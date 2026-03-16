@@ -9,7 +9,6 @@
         body {
             margin: 0;
             font-family: Segoe UI, Arial;
-            /* Professional Background */
             background: linear-gradient(135deg, #dfe9f3, #ffffff);
             min-height: 100vh;
         }
@@ -25,18 +24,15 @@
             width: 900px;
             padding: 40px;
             border-radius: 12px;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            backdrop-filter: blur(4px);
         }
         
         h1 {
             text-align: center;
             color: #1c6cb3;
             margin-bottom: 30px;
-            font-size: 30px;
         }
-        /* FORM GRID */
         
         .form-grid {
             display: grid;
@@ -50,13 +46,11 @@
             flex-direction: column;
             gap: 6px;
         }
-        /* LABEL */
         
         label {
             font-weight: 600;
             font-size: 15px;
         }
-        /* INPUTS */
         
         input,
         textarea {
@@ -71,7 +65,6 @@
             height: 45px;
             resize: none;
         }
-        /* SEX LINE */
         
         .sex-line {
             margin-top: 10px;
@@ -82,12 +75,10 @@
             margin-left: 12px;
             margin-right: 4px;
         }
-        /* SECTION */
         
         .section {
             margin-top: 30px;
         }
-        /* CATEGORY BUTTON */
         
         .category-btn {
             width: 100%;
@@ -102,11 +93,6 @@
             margin-top: 10px;
         }
         
-        .category-btn:hover {
-            background: #134f84;
-        }
-        /* SYMPTOM BOX */
-        
         .symptom-box {
             display: none;
             border: 1px solid #ddd;
@@ -115,22 +101,14 @@
             border-radius: 6px;
             background: #f8faff;
         }
-        /* SYMPTOM ROW */
         
         .symptom-item {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             padding: 6px 0;
             font-size: 15px;
         }
-        /* CHECKBOX */
-        
-        .symptom-item input {
-            width: 15px;
-            height: 15px;
-        }
-        /* SUBMIT BUTTON */
         
         .submit-btn {
             margin-top: 30px;
@@ -142,10 +120,6 @@
             font-size: 17px;
             border-radius: 6px;
             cursor: pointer;
-        }
-        
-        .submit-btn:hover {
-            background: #134f84;
         }
     </style>
 
@@ -161,6 +135,44 @@
             }
 
         }
+
+        function captureData(event) {
+
+            event.preventDefault();
+
+            var name = document.getElementById("patientName").value;
+            var age = document.getElementById("age").value;
+            var mobile = document.getElementById("mobile").value;
+            var address = document.getElementById("address").value;
+
+            var sexElement = document.querySelector('input[name="sex"]:checked');
+            var sex = sexElement ? sexElement.value : "Not Selected";
+
+            var symptoms = [];
+            var boxes = document.querySelectorAll(".symptom:checked");
+
+            boxes.forEach(function(box) {
+                symptoms.push(box.value);
+            });
+
+            var patientID = "P" + Math.floor(Math.random() * 10000);
+            var token = Math.floor(Math.random() * 50) + 1;
+
+            alert(
+
+                "Registration Successful\n\n" +
+                "Patient ID: " + patientID +
+                "\nToken Number: " + token +
+                "\n\nPatient Name: " + name +
+                "\nAge: " + age +
+                "\nMobile: " + mobile +
+                "\nAddress: " + address +
+                "\nSex: " + sex +
+                "\nSymptoms: " + symptoms.join(", ")
+
+            );
+
+        }
     </script>
 
 </head>
@@ -173,28 +185,28 @@
 
             <h1>Patient Registration</h1>
 
-            <form>
+            <form onsubmit="captureData(event)">
 
                 <div class="form-grid">
 
                     <div class="form-group">
                         <label>Patient Name</label>
-                        <input type="text">
+                        <input type="text" id="patientName">
                     </div>
 
                     <div class="form-group">
                         <label>Age</label>
-                        <input type="number">
+                        <input type="number" id="age">
                     </div>
 
                     <div class="form-group">
                         <label>Mobile No.</label>
-                        <input type="text">
+                        <input type="text" id="mobile">
                     </div>
 
                     <div class="form-group">
                         <label>Address</label>
-                        <textarea></textarea>
+                        <textarea id="address"></textarea>
                     </div>
 
                 </div>
@@ -203,9 +215,9 @@
 
                     <label>Sex</label>
 
-                    <input type="radio" name="sex"> Male
-                    <input type="radio" name="sex"> Female
-                    <input type="radio" name="sex"> Other
+                    <input type="radio" name="sex" value="Male"> Male
+                    <input type="radio" name="sex" value="Female"> Female
+                    <input type="radio" name="sex" value="Other"> Other
 
                 </div>
 
@@ -213,217 +225,155 @@
 
                     <label>Symptoms</label>
 
-
-                    <button type="button" class="category-btn" onclick="toggleSymptoms('gen')">
-1. General Symptoms
-</button>
-
+                    <!-- 1 -->
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('gen')">1. General Symptoms</button>
                     <div id="gen" class="symptom-box">
 
-                        <div class="symptom-item"><input type="checkbox"> Fever</div>
-                        <div class="symptom-item"><input type="checkbox"> Chills</div>
-                        <div class="symptom-item"><input type="checkbox"> Fatigue</div>
-                        <div class="symptom-item"><input type="checkbox"> Weakness</div>
-                        <div class="symptom-item"><input type="checkbox"> Weight Loss</div>
-                        <div class="symptom-item"><input type="checkbox"> Weight Gain</div>
-                        <div class="symptom-item"><input type="checkbox"> Night Sweats</div>
-                        <div class="symptom-item"><input type="checkbox"> Loss of Appetite</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Fever"> Fever</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Chills"> Chills</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Fatigue"> Fatigue</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Weakness"> Weakness</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Weight Loss"> Weight Loss</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Weight Gain"> Weight Gain</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Night Sweats"> Night Sweats</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Loss of Appetite"> Loss of Appetite</div>
 
                     </div>
 
-
-                    <button type="button" class="category-btn" onclick="toggleSymptoms('resp')">
-2. Respiratory Symptoms
-</button>
-
+                    <!-- 2 -->
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('resp')">2. Respiratory Symptoms</button>
                     <div id="resp" class="symptom-box">
 
-                        <div class="symptom-item"><input type="checkbox"> Cough</div>
-                        <div class="symptom-item"><input type="checkbox"> Dry Cough</div>
-                        <div class="symptom-item"><input type="checkbox"> Wet/Productive Cough</div>
-                        <div class="symptom-item"><input type="checkbox"> Shortness of Breath</div>
-                        <div class="symptom-item"><input type="checkbox"> Wheezing</div>
-                        <div class="symptom-item"><input type="checkbox"> Sneezing</div>
-                        <div class="symptom-item"><input type="checkbox"> Runny Nose</div>
-                        <div class="symptom-item"><input type="checkbox"> Nasal Congestion</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Cough"> Cough</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Dry Cough"> Dry Cough</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Shortness of Breath"> Shortness of Breath</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Wheezing"> Wheezing</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Sneezing"> Sneezing</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Runny Nose"> Runny Nose</div>
 
                     </div>
 
-
-                    <button type="button" class="category-btn" onclick="toggleSymptoms('card')">
-3. Cardiovascular Symptoms
-</button>
-
+                    <!-- 3 -->
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('card')">3. Cardiovascular Symptoms</button>
                     <div id="card" class="symptom-box">
 
-                        <div class="symptom-item"><input type="checkbox"> Chest Pain</div>
-                        <div class="symptom-item"><input type="checkbox"> Palpitations</div>
-                        <div class="symptom-item"><input type="checkbox"> Irregular Heartbeat</div>
-                        <div class="symptom-item"><input type="checkbox"> High Blood Pressure</div>
-                        <div class="symptom-item"><input type="checkbox"> Low Blood Pressure</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Chest Pain"> Chest Pain</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Palpitations"> Palpitations</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Irregular Heartbeat"> Irregular Heartbeat</div>
 
                     </div>
 
-
-                    <button type="button" class="category-btn" onclick="toggleSymptoms('gastro')">
-4. Gastrointestinal Symptoms
-</button>
-
+                    <!-- 4 -->
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('gastro')">4. Gastrointestinal Symptoms</button>
                     <div id="gastro" class="symptom-box">
 
-                        <div class="symptom-item"><input type="checkbox"> Abdominal Pain</div>
-                        <div class="symptom-item"><input type="checkbox"> Stomach Pain</div>
-                        <div class="symptom-item"><input type="checkbox"> Nausea</div>
-                        <div class="symptom-item"><input type="checkbox"> Vomiting</div>
-                        <div class="symptom-item"><input type="checkbox"> Diarrhea</div>
-                        <div class="symptom-item"><input type="checkbox"> Constipation</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Abdominal Pain"> Abdominal Pain</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Nausea"> Nausea</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Vomiting"> Vomiting</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Diarrhea"> Diarrhea</div>
 
                     </div>
 
-
-                    <button type="button" class="category-btn" onclick="toggleSymptoms('neuro')">
-5. Neurological Symptoms
-</button>
-
+                    <!-- 5 -->
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('neuro')">5. Neurological Symptoms</button>
                     <div id="neuro" class="symptom-box">
 
-                        <div class="symptom-item"><input type="checkbox"> Headache</div>
-                        <div class="symptom-item"><input type="checkbox"> Migraine</div>
-                        <div class="symptom-item"><input type="checkbox"> Dizziness</div>
-                        <div class="symptom-item"><input type="checkbox"> Seizures</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Headache"> Headache</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Migraine"> Migraine</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Dizziness"> Dizziness</div>
 
                     </div>
 
-
-                    <button type="button" class="category-btn" onclick="toggleSymptoms('muscle')">
-6. Musculoskeletal Symptoms
-</button>
-
+                    <!-- 6 -->
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('muscle')">6. Musculoskeletal Symptoms</button>
                     <div id="muscle" class="symptom-box">
 
-                        <div class="symptom-item"><input type="checkbox"> Joint Pain</div>
-                        <div class="symptom-item"><input type="checkbox"> Muscle Pain</div>
-                        <div class="symptom-item"><input type="checkbox"> Back Pain</div>
-                        <div class="symptom-item"><input type="checkbox"> Neck Pain</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Joint Pain"> Joint Pain</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Muscle Pain"> Muscle Pain</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Back Pain"> Back Pain</div>
 
                     </div>
 
-
-                    <button type="button" class="category-btn" onclick="toggleSymptoms('skin')">
-7. Skin Symptoms
-</button>
-
+                    <!-- 7 -->
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('skin')">7. Skin Symptoms</button>
                     <div id="skin" class="symptom-box">
 
-                        <div class="symptom-item"><input type="checkbox"> Rash</div>
-                        <div class="symptom-item"><input type="checkbox"> Itching</div>
-                        <div class="symptom-item"><input type="checkbox"> Redness</div>
-                        <div class="symptom-item"><input type="checkbox"> Dry Skin</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Rash"> Rash</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Itching"> Itching</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Redness"> Redness</div>
 
                     </div>
 
-
-                    <button type="button" class="category-btn" onclick="toggleSymptoms('eye')">
-8. Eye Symptoms
-</button>
-
+                    <!-- 8 -->
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('eye')">8. Eye Symptoms</button>
                     <div id="eye" class="symptom-box">
 
-                        <div class="symptom-item"><input type="checkbox"> Blurred Vision</div>
-                        <div class="symptom-item"><input type="checkbox"> Eye Pain</div>
-                        <div class="symptom-item"><input type="checkbox"> Eye Redness</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Blurred Vision"> Blurred Vision</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Eye Pain"> Eye Pain</div>
 
                     </div>
 
-
-                    <button type="button" class="category-btn" onclick="toggleSymptoms('ear')">
-9. Ear Symptoms
-</button>
-
+                    <!-- 9 -->
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('ear')">9. Ear Symptoms</button>
                     <div id="ear" class="symptom-box">
 
-                        <div class="symptom-item"><input type="checkbox"> Ear Pain</div>
-                        <div class="symptom-item"><input type="checkbox"> Hearing Loss</div>
-                        <div class="symptom-item"><input type="checkbox"> Ear Discharge</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Ear Pain"> Ear Pain</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Hearing Loss"> Hearing Loss</div>
 
                     </div>
 
-
-                    <button type="button" class="category-btn" onclick="toggleSymptoms('nose')">
-10. Nose Symptoms
-</button>
-
+                    <!-- 10 -->
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('nose')">10. Nose Symptoms</button>
                     <div id="nose" class="symptom-box">
 
-                        <div class="symptom-item"><input type="checkbox"> Nose Bleeding</div>
-                        <div class="symptom-item"><input type="checkbox"> Nasal Congestion</div>
-                        <div class="symptom-item"><input type="checkbox"> Loss of Smell</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Nose Bleeding"> Nose Bleeding</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Loss of Smell"> Loss of Smell</div>
 
                     </div>
 
-
-                    <button type="button" class="category-btn" onclick="toggleSymptoms('urinary')">
-11. Urinary Symptoms
-</button>
-
+                    <!-- 11 -->
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('urinary')">11. Urinary Symptoms</button>
                     <div id="urinary" class="symptom-box">
 
-                        <div class="symptom-item"><input type="checkbox"> Painful Urination</div>
-                        <div class="symptom-item"><input type="checkbox"> Frequent Urination</div>
-                        <div class="symptom-item"><input type="checkbox"> Blood in Urine</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Painful Urination"> Painful Urination</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Frequent Urination"> Frequent Urination</div>
 
                     </div>
 
-
-                    <button type="button" class="category-btn" onclick="toggleSymptoms('reproductive')">
-12. Reproductive Symptoms
-</button>
-
+                    <!-- 12 -->
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('reproductive')">12. Reproductive Symptoms</button>
                     <div id="reproductive" class="symptom-box">
 
-                        <div class="symptom-item"><input type="checkbox"> Pelvic Pain</div>
-                        <div class="symptom-item"><input type="checkbox"> Irregular Periods</div>
-                        <div class="symptom-item"><input type="checkbox"> Heavy Menstrual Bleeding</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Pelvic Pain"> Pelvic Pain</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Irregular Periods"> Irregular Periods</div>
 
                     </div>
 
-
-                    <button type="button" class="category-btn" onclick="toggleSymptoms('mental')">
-13. Mental / Psychological Symptoms
-</button>
-
+                    <!-- 13 -->
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('mental')">13. Mental Symptoms</button>
                     <div id="mental" class="symptom-box">
 
-                        <div class="symptom-item"><input type="checkbox"> Anxiety</div>
-                        <div class="symptom-item"><input type="checkbox"> Depression</div>
-                        <div class="symptom-item"><input type="checkbox"> Stress</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Anxiety"> Anxiety</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Depression"> Depression</div>
 
                     </div>
 
-
-                    <button type="button" class="category-btn" onclick="toggleSymptoms('allergy')">
-14. Allergy Symptoms
-</button>
-
+                    <!-- 14 -->
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('allergy')">14. Allergy Symptoms</button>
                     <div id="allergy" class="symptom-box">
 
-                        <div class="symptom-item"><input type="checkbox"> Sneezing</div>
-                        <div class="symptom-item"><input type="checkbox"> Skin Rash</div>
-                        <div class="symptom-item"><input type="checkbox"> Hives</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Sneezing"> Sneezing</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Skin Rash"> Skin Rash</div>
 
                     </div>
 
-
-                    <button type="button" class="category-btn" onclick="toggleSymptoms('emergency')">
-15. Emergency Symptoms
-</button>
-
+                    <!-- 15 -->
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('emergency')">15. Emergency Symptoms</button>
                     <div id="emergency" class="symptom-box">
 
-                        <div class="symptom-item"><input type="checkbox"> Severe Chest Pain</div>
-                        <div class="symptom-item"><input type="checkbox"> Severe Breathing Difficulty</div>
-                        <div class="symptom-item"><input type="checkbox"> Loss of Consciousness</div>
-                        <div class="symptom-item"><input type="checkbox"> Severe Burns</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Severe Chest Pain"> Severe Chest Pain</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Severe Breathing Difficulty"> Severe Breathing Difficulty</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom" value="Loss of Consciousness"> Loss of Consciousness</div>
 
                     </div>
 

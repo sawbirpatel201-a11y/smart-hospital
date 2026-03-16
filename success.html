@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Registration Completed</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Segoe UI;
+            background: linear-gradient(135deg, #1c6cb3, #74b9ff);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: white;
+            padding: 60px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 500px;
+        }
+        
+        h1 {
+            color: #28a745;
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+        
+        .id {
+            font-size: 28px;
+            margin-top: 20px;
+        }
+        
+        .token {
+            font-size: 60px;
+            color: #1c6cb3;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+    </style>
+
+    <script>
+        window.onload = function() {
+
+            var params = new URLSearchParams(window.location.search);
+
+            var id = params.get("id");
+
+            var token = params.get("token");
+
+            document.getElementById("patientID").innerText = id;
+
+            document.getElementById("token").innerText = token;
+
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Registration Completed</h1>
+
+        <div class="id">
+
+            Patient ID : <span id="patientID"></span>
+
+        </div>
+
+        <div class="id">
+
+            Your Token Number
+
+        </div>
+
+        <div class="token" id="token"></div>
+
+    </div>
+
+</body>
+
+</html>
