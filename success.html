@@ -3,75 +3,30 @@
 
 <head>
 
-    <title>Patient Token</title>
+    <title>Token Slip</title>
 
     <style>
         body {
-            margin: 0;
-            font-family: Segoe UI, Arial;
-            background: linear-gradient(135deg, #e8f2ff, #ffffff);
+            font-family: Segoe UI;
+            background: #f4f6f9;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
         }
         
-        .ticket {
-            width: 420px;
+        .card {
             background: white;
+            padding: 40px;
             border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            padding: 25px;
             text-align: center;
         }
         
-        .header {
-            background: #1c6cb3;
-            color: white;
-            padding: 12px;
-            border-radius: 6px;
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-        
-        .info {
-            margin: 10px 0;
-            font-size: 18px;
-        }
-        
         .token {
-            font-size: 45px;
-            color: #e63946;
-            font-weight: bold;
-            margin: 15px 0;
-        }
-        
-        .ward {
-            font-size: 20px;
-            color: #1c6cb3;
-            font-weight: bold;
-        }
-        
-        .footer {
-            margin-top: 15px;
-            font-size: 14px;
-            color: #777;
-        }
-        
-        .print-btn {
-            margin-top: 20px;
-            padding: 10px 20px;
-            border: none;
-            background: #1c6cb3;
-            color: white;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        
-        .print-btn:hover {
-            background: #0f4c8a;
+            font-size: 50px;
+            color: red;
+            margin: 20px;
         }
     </style>
 
@@ -80,25 +35,10 @@
 
             var params = new URLSearchParams(window.location.search);
 
-            var id = params.get("id");
-            var token = params.get("token");
-            var ward = params.get("ward");
+            document.getElementById("pid").innerText = params.get("id");
+            document.getElementById("token").innerText = params.get("token");
+            document.getElementById("ward").innerText = params.get("ward");
 
-            var now = new Date();
-
-            var date = now.toLocaleDateString();
-            var time = now.toLocaleTimeString();
-
-            document.getElementById("pid").innerText = id;
-            document.getElementById("token").innerText = token;
-            document.getElementById("ward").innerText = ward;
-            document.getElementById("date").innerText = date;
-            document.getElementById("time").innerText = time;
-
-        }
-
-        function printSlip() {
-            window.print();
         }
     </script>
 
@@ -106,41 +46,22 @@
 
 <body onload="loadData()">
 
-    <div class="ticket">
+    <div class="card">
 
-        <div class="header">
-            Smart Digital Hospital
-        </div>
+        <h2>Registration Successful</h2>
 
-        <div class="info">
-            Patient ID : <b id="pid"></b>
-        </div>
+        <p>Patient ID</p>
+        <h3 id="pid"></h3>
 
-        <div class="info">
-            Date : <span id="date"></span>
-        </div>
-
-        <div class="info">
-            Time : <span id="time"></span>
-        </div>
-
-        <div class="info">
-            Token Number :
-        </div>
-
+        <p>Token Number</p>
         <div class="token" id="token"></div>
 
-        <div class="info">
-            Assigned Ward :
-        </div>
+        <p>Assigned Ward</p>
+        <h3 id="ward"></h3>
 
-        <div class="ward" id="ward"></div>
-
-        <button class="print-btn" onclick="printSlip()">Print Token</button>
-
-        <div class="footer">
-            Please wait for your token number to be called
-        </div>
+        <a href="queue.html">
+            <button>Go to Queue Display</button>
+        </a>
 
     </div>
 

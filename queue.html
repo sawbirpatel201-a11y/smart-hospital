@@ -3,104 +3,53 @@
 
 <head>
 
-    <title>Hospital Queue Display</title>
+    <title>Patient Queue</title>
 
     <style>
         body {
             font-family: Segoe UI;
             text-align: center;
             background: #f4f6f9;
-            margin: 0;
         }
         
-        .header {
-            background: #1c6cb3;
-            color: white;
-            padding: 20px;
-            font-size: 28px;
-        }
-        
-        h2 {
+        h1 {
             margin-top: 30px;
         }
         
         .token {
             font-size: 120px;
-            color: #e63946;
+            color: #1c6cb3;
             margin-top: 40px;
-            font-weight: bold;
         }
         
         button {
-            padding: 12px 25px;
+            padding: 10px 20px;
             font-size: 18px;
-            margin: 15px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-        
-        .next {
-            background: #1c6cb3;
-            color: white;
-        }
-        
-        .reset {
-            background: #e63946;
-            color: white;
+            margin-top: 30px;
         }
     </style>
 
     <script>
-        function loadToken() {
-
-            let token = localStorage.getItem("currentToken");
-
-            if (token === null) {
-                token = 1;
-                localStorage.setItem("currentToken", 1);
-            }
-
-            document.getElementById("token").innerText = token;
-
-        }
+        let currentToken = 1;
 
         function nextToken() {
 
-            let token = parseInt(localStorage.getItem("currentToken"));
+            document.getElementById("token").innerText = currentToken;
 
-            token++;
-
-            localStorage.setItem("currentToken", token);
-
-            document.getElementById("token").innerText = token;
-
-        }
-
-        function resetToken() {
-
-            localStorage.setItem("currentToken", 1);
-
-            document.getElementById("token").innerText = 1;
+            currentToken++;
 
         }
     </script>
 
 </head>
 
-<body onload="loadToken()">
+<body>
 
-    <div class="header">
-        City Care Hospital Queue Display
-    </div>
-
-    <h2>Now Serving Token</h2>
+    <h1>Now Serving Token</h1>
 
     <div class="token" id="token">1</div>
 
-    <button class="next" onclick="nextToken()">Next Patient</button>
-
-    <button class="reset" onclick="resetToken()">Reset</button>
+    <button onclick="nextToken()">Next Patient</button>
 
 </body>
 

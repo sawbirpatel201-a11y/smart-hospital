@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>Hospital Patient Registration</title>
+    <title>Smart Hospital Patient Registration</title>
 
     <style>
         body {
@@ -12,15 +12,10 @@
             background: linear-gradient(135deg, #e3efff, #ffffff);
         }
         
-        .overlay {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-        }
-        
         .container {
             width: 1000px;
+            margin: auto;
+            margin-top: 30px;
             background: white;
             padding: 40px;
             border-radius: 12px;
@@ -30,8 +25,9 @@
         h1 {
             text-align: center;
             color: #1c6cb3;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
+        /* GRID LAYOUT */
         
         .form-grid {
             display: grid;
@@ -54,49 +50,35 @@
             padding: 8px;
             border-radius: 6px;
             border: 1px solid #ccc;
+            text-transform: uppercase;
         }
         
         textarea {
-            height: 40px;
+            height: 45px;
             resize: none;
-        }
-        
-        .sex-line {
-            margin-top: 15px;
         }
         
         .section {
             margin-top: 25px;
         }
         
-        .category-btn {
-            width: 100%;
-            padding: 10px;
+        .category {
             background: #1c6cb3;
             color: white;
-            border: none;
+            padding: 8px;
             border-radius: 6px;
             margin-top: 10px;
-            cursor: pointer;
-            text-align: left;
         }
         
-        .symptom-box {
-            display: none;
-            background: #f8faff;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: 10px;
+        .symptom-list {
+            margin-left: 10px;
+            margin-bottom: 10px;
         }
         
-        .symptom-item {
-            margin: 5px 0;
-        }
-        
-        .submit-btn {
-            margin-top: 25px;
-            width: 100%;
+        button {
+            margin-top: 20px;
             padding: 12px;
+            width: 100%;
             background: #1c6cb3;
             color: white;
             border: none;
@@ -107,47 +89,51 @@
     </style>
 
     <script>
-        function toggleSymptoms(id) {
-
-            var box = document.getElementById(id);
-
-            if (box.style.display === "block") {
-                box.style.display = "none";
-            } else {
-                box.style.display = "block";
-            }
-
-        }
-
-        function captureData(event) {
+        function registerPatient(event) {
 
             event.preventDefault();
 
-            var name = document.getElementById("patientName").value.trim();
-            var age = document.getElementById("age").value.trim();
-            var mobile = document.getElementById("mobile").value.trim();
+            var name = document.getElementById("name").value.trim();
+            var age = document.getElementById("age").value;
+            var mobile = document.getElementById("mobile").value;
+            var address = document.getElementById("address").value;
 
-            if (name === "") {
-                alert("Enter patient name");
+            /* VALIDATION */
+
+            var namePattern = /^[A-Za-z ]+$/;
+
+            if (!namePattern.test(name)) {
+                alert("Patient name must contain only letters");
                 return;
             }
 
-            if (age === "" || age < 1 || age > 120) {
-                alert("Enter valid age");
+            if (age < 1 || age > 120) {
+                alert("Age must be between 1 and 120");
                 return;
             }
 
-            if (mobile.length != 10) {
-                alert("Enter 10 digit mobile number");
+            var mobilePattern = /^[0-9]{10}$/;
+
+            if (!mobilePattern.test(mobile)) {
+                alert("Mobile number must be exactly 10 digits");
                 return;
             }
+
+            if (address === "") {
+                alert("Please enter address");
+                return;
+            }
+
+            /* SYMPTOMS */
 
             var symptoms = document.querySelectorAll(".symptom:checked");
 
             if (symptoms.length === 0) {
-                alert("Select at least one symptom");
+                alert("Please select at least one symptom");
                 return;
             }
+
+            /* WARD ASSIGNMENT */
 
             var ward = "General Ward - Ward No.1";
 
@@ -159,17 +145,47 @@
                     ward = "Cardio Ward - Ward No.2";
                 } else if (value.includes("headache") || value.includes("seizure")) {
                     ward = "Neuro Ward - Ward No.3";
-                } else if (value.includes("rash") || value.includes("itching")) {
-                    ward = "Allergy Ward - Ward No.4";
                 } else if (value.includes("ear") || value.includes("nose")) {
                     ward = "ENT Ward - Ward No.7";
                 } else if (value.includes("eye")) {
                     ward = "Eye Ward - Ward No.8";
+                } else if (value.includes("rash") || value.includes("itching")) {
+                    ward = "Allergy Ward - Ward No.4";
                 }
 
             });
 
-            alert("Assigned Ward : " + ward);
+            /* PATIENT ID */
+
+            let patientCounter = localStorage.getItem("patientCounter");
+
+            if (patientCounter === null) {
+                patientCounter = 1;
+            } else {
+                patientCounter = parseInt(patientCounter) + 1;
+            }
+
+            localStorage.setItem("patientCounter", patientCounter);
+
+            var patientID = "P" + String(patientCounter).padStart(4, '0');
+
+            /* TOKEN WARD WISE */
+
+            let tokenCounter = localStorage.getItem(ward);
+
+            if (tokenCounter === null) {
+                tokenCounter = 1;
+            } else {
+                tokenCounter = parseInt(tokenCounter) + 1;
+            }
+
+            localStorage.setItem(ward, tokenCounter);
+
+            var token = String(tokenCounter).padStart(2, '0');
+
+            /* REDIRECT */
+
+            window.location.href = "success.html?id=" + patientID + "&token=" + token + "&ward=" + encodeURIComponent(ward);
 
         }
     </script>
@@ -178,144 +194,89 @@
 
 <body>
 
-    <div class="overlay">
+    <div class="container">
 
-        <div class="container">
+        <h1>Patient Registration</h1>
 
-            <h1>Patient Registration</h1>
+        <form onsubmit="registerPatient(event)">
 
-            <form onsubmit="captureData(event)">
+            <div class="form-grid">
 
-                <div class="form-grid">
-
-                    <div class="form-group">
-                        <label>Patient Name</label>
-                        <input type="text" id="patientName">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Age</label>
-                        <input type="number" id="age">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Mobile</label>
-                        <input type="text" id="mobile">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Address</label>
-                        <textarea></textarea>
-                    </div>
-
+                <div class="form-group">
+                    <label>Patient Name</label>
+                    <input type="text" id="name">
                 </div>
 
-                <div class="sex-line">
-
-                    <label>Sex</label>
-
-                    <input type="radio" name="sex"> Male
-                    <input type="radio" name="sex"> Female
-                    <input type="radio" name="sex"> Other
-
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" id="age" min="1" max="120">
                 </div>
 
-                <div class="section">
-
-                    <label>Symptoms</label>
-
-                    <!-- GENERAL -->
-
-                    <button type="button" class="category-btn" onclick="toggleSymptoms('general')">General Symptoms</button>
-
-                    <div id="general" class="symptom-box">
-
-                        <div class="symptom-item"><input type="checkbox" class="symptom" value="fever"> Fever</div>
-                        <div class="symptom-item"><input type="checkbox" class="symptom" value="chills"> Chills</div>
-                        <div class="symptom-item"><input type="checkbox" class="symptom" value="fatigue"> Fatigue</div>
-                        <div class="symptom-item"><input type="checkbox" class="symptom" value="weakness"> Weakness</div>
-                        <div class="symptom-item"><input type="checkbox" class="symptom" value="weight loss"> Weight Loss</div>
-
-                    </div>
-
-                    <!-- RESPIRATORY -->
-
-                    <button type="button" class="category-btn" onclick="toggleSymptoms('resp')">Respiratory Symptoms</button>
-
-                    <div id="resp" class="symptom-box">
-
-                        <div class="symptom-item"><input type="checkbox" class="symptom" value="cough"> Cough</div>
-                        <div class="symptom-item"><input type="checkbox" class="symptom" value="dry cough"> Dry Cough</div>
-                        <div class="symptom-item"><input type="checkbox" class="symptom" value="shortness breath"> Shortness of Breath</div>
-                        <div class="symptom-item"><input type="checkbox" class="symptom" value="wheezing"> Wheezing</div>
-
-                    </div>
-
-                    <!-- CARDIO -->
-
-                    <button type="button" class="category-btn" onclick="toggleSymptoms('cardio')">Cardiovascular Symptoms</button>
-
-                    <div id="cardio" class="symptom-box">
-
-                        <div class="symptom-item"><input type="checkbox" class="symptom" value="chest pain"> Chest Pain</div>
-                        <div class="symptom-item"><input type="checkbox" class="symptom" value="palpitations"> Palpitations</div>
-                        <div class="symptom-item"><input type="checkbox" class="symptom" value="heartbeat"> Irregular Heartbeat</div>
-
-                    </div>
-
-                    <!-- NEURO -->
-
-                    <button type="button" class="category-btn" onclick="toggleSymptoms('neuro')">Neurological Symptoms</button>
-
-                    <div id="neuro" class="symptom-box">
-
-                        <div class="symptom-item"><input type="checkbox" class="symptom" value="headache"> Headache</div>
-                        <div class="symptom-item"><input type="checkbox" class="symptom" value="migraine"> Migraine</div>
-                        <div class="symptom-item"><input type="checkbox" class="symptom" value="seizure"> Seizures</div>
-
-                    </div>
-
-                    <!-- ENT -->
-
-                    <button type="button" class="category-btn" onclick="toggleSymptoms('ent')">Ear / Nose Symptoms</button>
-
-                    <div id="ent" class="symptom-box">
-
-                        <div class="symptom-item"><input type="checkbox" class="symptom" value="ear pain"> Ear Pain</div>
-                        <div class="symptom-item"><input type="checkbox" class="symptom" value="hearing loss"> Hearing Loss</div>
-                        <div class="symptom-item"><input type="checkbox" class="symptom" value="nose bleeding"> Nose Bleeding</div>
-
-                    </div>
-
-                    <!-- EYE -->
-
-                    <button type="button" class="category-btn" onclick="toggleSymptoms('eye')">Eye Symptoms</button>
-
-                    <div id="eye" class="symptom-box">
-
-                        <div class="symptom-item"><input type="checkbox" class="symptom" value="eye pain"> Eye Pain</div>
-                        <div class="symptom-item"><input type="checkbox" class="symptom" value="blurred vision"> Blurred Vision</div>
-
-                    </div>
-
-                    <!-- SKIN -->
-
-                    <button type="button" class="category-btn" onclick="toggleSymptoms('skin')">Skin / Allergy Symptoms</button>
-
-                    <div id="skin" class="symptom-box">
-
-                        <div class="symptom-item"><input type="checkbox" class="symptom" value="rash"> Rash</div>
-                        <div class="symptom-item"><input type="checkbox" class="symptom" value="itching"> Itching</div>
-
-                    </div>
-
+                <div class="form-group">
+                    <label>Mobile</label>
+                    <input type="text" id="mobile" maxlength="10">
                 </div>
 
-                <button class="submit-btn">Submit Registration</button>
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea id="address"></textarea>
+                </div>
 
-            </form>
+            </div>
 
-        </div>
+            <div class="section">
+
+                <h3>Symptoms</h3>
+
+                <div class="category">General Symptoms</div>
+                <div class="symptom-list">
+                    <label><input type="checkbox" class="symptom" value="fever"> Fever</label><br>
+                    <label><input type="checkbox" class="symptom" value="fatigue"> Fatigue</label><br>
+                    <label><input type="checkbox" class="symptom" value="weakness"> Weakness</label>
+                </div>
+
+                <div class="category">Respiratory Symptoms</div>
+                <div class="symptom-list">
+                    <label><input type="checkbox" class="symptom" value="cough"> Cough</label><br>
+                    <label><input type="checkbox" class="symptom" value="shortness breath"> Shortness of Breath</label><br>
+                    <label><input type="checkbox" class="symptom" value="wheezing"> Wheezing</label>
+                </div>
+
+                <div class="category">Cardiovascular Symptoms</div>
+                <div class="symptom-list">
+                    <label><input type="checkbox" class="symptom" value="chest pain"> Chest Pain</label><br>
+                    <label><input type="checkbox" class="symptom" value="heartbeat"> Irregular Heartbeat</label>
+                </div>
+
+                <div class="category">Neurological Symptoms</div>
+                <div class="symptom-list">
+                    <label><input type="checkbox" class="symptom" value="headache"> Headache</label><br>
+                    <label><input type="checkbox" class="symptom" value="seizure"> Seizure</label>
+                </div>
+
+                <div class="category">ENT Symptoms</div>
+                <div class="symptom-list">
+                    <label><input type="checkbox" class="symptom" value="ear pain"> Ear Pain</label><br>
+                    <label><input type="checkbox" class="symptom" value="nose bleeding"> Nose Bleeding</label>
+                </div>
+
+                <div class="category">Eye Symptoms</div>
+                <div class="symptom-list">
+                    <label><input type="checkbox" class="symptom" value="eye pain"> Eye Pain</label><br>
+                    <label><input type="checkbox" class="symptom" value="blurred vision"> Blurred Vision</label>
+                </div>
+
+                <div class="category">Skin / Allergy Symptoms</div>
+                <div class="symptom-list">
+                    <label><input type="checkbox" class="symptom" value="rash"> Rash</label><br>
+                    <label><input type="checkbox" class="symptom" value="itching"> Itching</label>
+                </div>
+
+            </div>
+
+            <button>Register Patient</button>
+
+        </form>
 
     </div>
 
