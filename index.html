@@ -3,17 +3,70 @@
 
 <head>
     <title>Smart Hospital</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url("https://images.unsplash.com/photo-1586773860418-d37222d8fce3");
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 50px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        h1 {
+            color: #0077b6;
+            font-size: 40px;
+        }
+        
+        p {
+            font-size: 18px;
+            color: #333;
+        }
+        
+        button {
+            background: #0077b6;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background: #023e8a;
+        }
+    </style>
+
 </head>
 
 <body>
 
-    <h1>Smart Hospital System</h1>
+    <div class="container">
 
-    <p>Welcome to Digital Hospital</p>
+        <h1><i class="fa-solid fa-hospital"></i> Smart Hospital System</h1>
 
-    <a href="./register.html">
-        <button>Patient Registration</button>
-    </a>
+        <p>Welcome to Digital Hospital</p>
+
+        <a href="register.html">
+            <button><i class="fa-solid fa-user-plus"></i> Patient Registration</button>
+        </a>
+
+    </div>
 
 </body>
 

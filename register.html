@@ -3,60 +3,106 @@
 
 <head>
     <title>Patient Registration</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            width: 350px;
+        }
+        
+        h2 {
+            text-align: center;
+            color: #0077b6;
+        }
+        
+        label {
+            font-weight: bold;
+        }
+        
+        input[type=text],
+        input[type=number] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #0077b6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background: #023e8a;
+        }
+    </style>
+
 </head>
 
 <body>
 
-    <h2>Hospital Patient Registration</h2>
+    <div class="container">
 
-    <form>
+        <h2><i class="fa-solid fa-user"></i> Patient Registration</h2>
 
-        <label>Patient Name:</label>
-        <br>
-        <input type="text" placeholder="Enter your name">
-        <br><br>
+        <form>
 
-        <label>Patient Address:</label>
-        <br>
-        <input type="text" placeholder="Enter your Address">
-        <br><br>
+            <label>Name</label>
+            <input type="text" placeholder="Enter your name">
 
-        <label>Age:</label>
-        <br>
-        <input type="number" placeholder="Enter your Age">
-        <br><br>
+            <label>Age</label>
+            <input type="number" placeholder="Enter your age">
 
-        <label>Sex:</label>
-        <br>
+            <label>Phone</label>
+            <input type="text" placeholder="Enter phone number">
 
-        <input type="radio" name="sex" value="Male"> Male
-        <br>
+            <label>Sex</label><br>
 
-        <input type="radio" name="sex" value="Female"> Female
-        <br>
+            <input type="radio" name="sex"> Male
+            <input type="radio" name="sex"> Female
+            <input type="radio" name="sex"> Other
 
-        <input type="radio" name="sex" value="Other"> Other
+            <br><br>
 
-        <br><br>
+            <label>Symptoms</label><br>
 
-        <label>Mobile Number:</label>
-        <br>
-        <input type="text" placeholder="Enter Mobile Number">
-        <br><br>
+            <input type="checkbox"> Fever<br>
+            <input type="checkbox"> Cough<br>
+            <input type="checkbox"> Headache<br>
+            <input type="checkbox"> Chest Pain
 
-        <label>Symptoms:</label>
-        <br>
+            <br><br>
 
-        <input type="checkbox"> Fever <br>
-        <input type="checkbox"> Cough <br>
-        <input type="checkbox"> Headache <br>
-        <input type="checkbox"> Chest Pain <br>
+            <button type="submit">
+<i class="fa-solid fa-paper-plane"></i> Submit
+</button>
 
-        <br>
+        </form>
 
-        <button type="submit">Register Patient</button>
-
-    </form>
+    </div>
 
 </body>
 
