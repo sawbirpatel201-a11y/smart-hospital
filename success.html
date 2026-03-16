@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>Registration Successful</title>
+    <title>Patient Slip</title>
 
     <style>
         body {
@@ -24,7 +24,6 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             width: 500px;
         }
-        /* GREEN CIRCLE */
         
         .tick {
             width: 100px;
@@ -40,20 +39,26 @@
             margin-bottom: 20px;
         }
         
-        h1 {
-            color: #28a745;
-        }
-        
         .id {
-            font-size: 26px;
-            margin-top: 20px;
+            font-size: 24px;
+            margin-top: 10px;
         }
         
         .token {
             font-size: 70px;
             color: #1c6cb3;
             font-weight: bold;
-            margin-top: 10px;
+        }
+        
+        .print-btn {
+            margin-top: 25px;
+            padding: 12px 25px;
+            background: #1c6cb3;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
         }
     </style>
 
@@ -63,12 +68,20 @@
             var params = new URLSearchParams(window.location.search);
 
             var id = params.get("id");
-
             var token = params.get("token");
+            var dept = params.get("dept");
 
             document.getElementById("patientID").innerText = id;
-
             document.getElementById("token").innerText = token;
+            document.getElementById("dept").innerText = dept;
+
+        }
+
+        /* Print Slip */
+
+        function printSlip() {
+
+            window.print();
 
         }
     </script>
@@ -88,10 +101,16 @@
         </div>
 
         <div class="id">
-            Your Token Number :
+            Department : <span id="dept"></span>
+        </div>
+
+        <div class="id">
+            Your Token Number
         </div>
 
         <div class="token" id="token"></div>
+
+        <button class="print-btn" onclick="printSlip()">Print Token Slip</button>
 
     </div>
 
