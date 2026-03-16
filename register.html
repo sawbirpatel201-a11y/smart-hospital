@@ -55,6 +55,7 @@
             padding: 8px;
             border-radius: 6px;
             border: 1px solid #ccc;
+            text-transform: uppercase;
         }
         
         textarea {
@@ -128,36 +129,44 @@
 
             event.preventDefault();
 
-            /* Fields */
-
             var name = document.getElementById("patientName").value.trim();
             var age = document.getElementById("age").value.trim();
             var mobile = document.getElementById("mobile").value.trim();
             var address = document.getElementById("address").value.trim();
 
-            /* Validation */
+            /* NAME VALIDATION */
 
-            if (name === "") {
-                alert("Please enter Patient Name");
+            var namePattern = /^[A-Za-z ]+$/;
+
+            if (!namePattern.test(name)) {
+                alert("Patient Name must contain only letters");
                 return;
             }
 
-            if (age === "") {
-                alert("Please enter Age");
+            /* AGE VALIDATION */
+
+            if (age === "" || age <= 0 || age > 150) {
+                alert("Age must be between 1 and 150");
                 return;
             }
 
-            if (mobile === "") {
-                alert("Please enter Mobile Number");
+            /* MOBILE VALIDATION */
+
+            var mobilePattern = /^[0-9]{10}$/;
+
+            if (!mobilePattern.test(mobile)) {
+                alert("Mobile number must be exactly 10 digits");
                 return;
             }
+
+            /* ADDRESS */
 
             if (address === "") {
                 alert("Please enter Address");
                 return;
             }
 
-            /* Sex */
+            /* SEX */
 
             var sex = document.querySelector('input[name="sex"]:checked');
 
@@ -166,7 +175,7 @@
                 return;
             }
 
-            /* Symptoms */
+            /* SYMPTOMS */
 
             var symptoms = document.querySelectorAll(".symptom:checked");
 
@@ -175,15 +184,15 @@
                 return;
             }
 
-            /* Generate ID */
+            /* PATIENT ID */
 
             var patientID = "P" + Math.floor(Math.random() * 10000);
 
-            /* Token */
+            /* TOKEN */
 
             var token = Math.floor(Math.random() * 50) + 1;
 
-            /* Redirect */
+            /* REDIRECT */
 
             window.location.href = "success.html?id=" + patientID + "&token=" + token;
 
@@ -211,12 +220,12 @@
 
                     <div class="form-group">
                         <label>Age</label>
-                        <input type="number" id="age">
+                        <input type="number" id="age" min="1" max="150">
                     </div>
 
                     <div class="form-group">
                         <label>Mobile No.</label>
-                        <input type="text" id="mobile">
+                        <input type="text" id="mobile" maxlength="10">
                     </div>
 
                     <div class="form-group">
@@ -241,33 +250,119 @@
                     <label>Symptoms</label>
 
                     <button type="button" class="category-btn" onclick="toggleSymptoms('gen')">1. General Symptoms</button>
-
                     <div id="gen" class="symptom-box">
 
                         <div class="symptom-item"><input type="checkbox" class="symptom"> Fever</div>
                         <div class="symptom-item"><input type="checkbox" class="symptom"> Chills</div>
                         <div class="symptom-item"><input type="checkbox" class="symptom"> Fatigue</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom"> Weakness</div>
 
                     </div>
 
-
                     <button type="button" class="category-btn" onclick="toggleSymptoms('resp')">2. Respiratory Symptoms</button>
-
                     <div id="resp" class="symptom-box">
 
                         <div class="symptom-item"><input type="checkbox" class="symptom"> Cough</div>
                         <div class="symptom-item"><input type="checkbox" class="symptom"> Dry Cough</div>
-                        <div class="symptom-item"><input type="checkbox" class="symptom"> Shortness of Breath</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom"> Wheezing</div>
 
                     </div>
 
-
                     <button type="button" class="category-btn" onclick="toggleSymptoms('card')">3. Cardiovascular Symptoms</button>
-
                     <div id="card" class="symptom-box">
 
                         <div class="symptom-item"><input type="checkbox" class="symptom"> Chest Pain</div>
                         <div class="symptom-item"><input type="checkbox" class="symptom"> Palpitations</div>
+
+                    </div>
+
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('gastro')">4. Gastrointestinal Symptoms</button>
+                    <div id="gastro" class="symptom-box">
+
+                        <div class="symptom-item"><input type="checkbox" class="symptom"> Abdominal Pain</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom"> Nausea</div>
+
+                    </div>
+
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('neuro')">5. Neurological Symptoms</button>
+                    <div id="neuro" class="symptom-box">
+
+                        <div class="symptom-item"><input type="checkbox" class="symptom"> Headache</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom"> Migraine</div>
+
+                    </div>
+
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('muscle')">6. Musculoskeletal Symptoms</button>
+                    <div id="muscle" class="symptom-box">
+
+                        <div class="symptom-item"><input type="checkbox" class="symptom"> Joint Pain</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom"> Muscle Pain</div>
+
+                    </div>
+
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('skin')">7. Skin Symptoms</button>
+                    <div id="skin" class="symptom-box">
+
+                        <div class="symptom-item"><input type="checkbox" class="symptom"> Rash</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom"> Itching</div>
+
+                    </div>
+
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('eye')">8. Eye Symptoms</button>
+                    <div id="eye" class="symptom-box">
+
+                        <div class="symptom-item"><input type="checkbox" class="symptom"> Eye Pain</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom"> Blurred Vision</div>
+
+                    </div>
+
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('ear')">9. Ear Symptoms</button>
+                    <div id="ear" class="symptom-box">
+
+                        <div class="symptom-item"><input type="checkbox" class="symptom"> Ear Pain</div>
+
+                    </div>
+
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('nose')">10. Nose Symptoms</button>
+                    <div id="nose" class="symptom-box">
+
+                        <div class="symptom-item"><input type="checkbox" class="symptom"> Nose Bleeding</div>
+
+                    </div>
+
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('urinary')">11. Urinary Symptoms</button>
+                    <div id="urinary" class="symptom-box">
+
+                        <div class="symptom-item"><input type="checkbox" class="symptom"> Frequent Urination</div>
+
+                    </div>
+
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('reproductive')">12. Reproductive Symptoms</button>
+                    <div id="reproductive" class="symptom-box">
+
+                        <div class="symptom-item"><input type="checkbox" class="symptom"> Pelvic Pain</div>
+
+                    </div>
+
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('mental')">13. Mental Symptoms</button>
+                    <div id="mental" class="symptom-box">
+
+                        <div class="symptom-item"><input type="checkbox" class="symptom"> Anxiety</div>
+
+                    </div>
+
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('allergy')">14. Allergy Symptoms</button>
+                    <div id="allergy" class="symptom-box">
+
+                        <div class="symptom-item"><input type="checkbox" class="symptom"> Sneezing</div>
+
+                    </div>
+
+                    <button type="button" class="category-btn" onclick="toggleSymptoms('emergency')">15. Emergency Symptoms</button>
+                    <div id="emergency" class="symptom-box">
+
+                        <div class="symptom-item"><input type="checkbox" class="symptom"> Severe Chest Pain</div>
+                        <div class="symptom-item"><input type="checkbox" class="symptom"> Severe Breathing Difficulty</div>
 
                     </div>
 
